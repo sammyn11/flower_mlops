@@ -1,0 +1,7 @@
+# TensorFlow is preinstalled in Google Colab. Install only these project dependencies.
+numpy>=1.26,<2
+pillow>=10
+scikit-learn>=1.4
+pandas>=2.2
+matplotlib>=3.8
+seaborn>=0.13

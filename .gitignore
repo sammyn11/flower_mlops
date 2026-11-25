@@ -1,0 +1,9 @@
+__pycache__/
+.ipynb_checkpoints/
+data/raw/
+data/uploads/
+data/uploads.db
+data/insights.json
+models/job_state.json
+models/archive/
+.venv/
