@@ -10,6 +10,7 @@ from typing import List
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.concurrency import run_in_threadpool
 
 from src import config as C
 from src import database as db
@@ -101,7 +102,7 @@ async def predict(file: UploadFile = File(...)):
     data = await file.read()
     t0 = time.perf_counter()
     try:
-        result = predictor.predict(data)
+        result = await run_in_threadpool(predictor.predict, data)
     except FileNotFoundError as e:
         raise HTTPException(503, str(e))
     except Exception as e:                                   # noqa: BLE001
