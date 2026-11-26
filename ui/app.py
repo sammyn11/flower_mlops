@@ -27,7 +27,7 @@ if page == "🔮 Predict":
     f = st.file_uploader("Upload one image (jpg/png)", type=["jpg", "jpeg", "png"])
     if f:
         c1, c2 = st.columns(2)
-        c1.image(f, use_container_width=True)
+        c1.image(f, use_column_width=True)
         if c2.button("Predict", type="primary"):
             try:
                 r = requests.post(f"{API}/predict", files={"file": (f.name, f.getvalue(), f.type)}, timeout=60)
