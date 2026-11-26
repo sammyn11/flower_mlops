@@ -1,6 +1,7 @@
 services:
   api:                       # scale with: docker compose up -d --scale api=3
     build: { context: ., dockerfile: Dockerfile.api }
+    init: true                # reap child processes during repeated load-test runs
     volumes:
       - ./data:/app/data     # shared by every replica (uploads, DB)
       - ./models:/app/models # shared model file + job state
