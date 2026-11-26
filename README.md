@@ -7,7 +7,7 @@ I built an end-to-end image classification pipeline for five flower classes: dai
 ## Project links
 
 - GitHub repository: https://github.com/sammyn11/flower_mlops
-- Video demonstration: **I will add my YouTube link after recording the demo.**
+- Video demonstration: https://youtu.be/YFKE3cYcEh8
 - Deployed dashboard: https://flower-mlops-dashboard.onrender.com
 - API documentation: https://flower-mlops-api.onrender.com/docs
 
@@ -181,7 +181,7 @@ I will record a clear demonstration with my camera on and sound working. In the 
 5. Upload a batch of labeled images and show that they are saved.
 6. Trigger retraining, show the job progress, and show the resulting model version/metrics.
 7. Show the deployed dashboard and API, then show the Locust results for different container counts.
-8. Upload the recording to YouTube and replace the video placeholder above with its link.
+8. I uploaded the camera-on recording to YouTube: https://youtu.be/YFKE3cYcEh8.
 
 ## Results to complete after running the project
 
@@ -218,7 +218,7 @@ The table shows the measured results for one, two, and three API containers. At 
 - [ ] Demonstrate single-image prediction, visualizations, bulk upload, and retraining.
 - [ ] Deploy the app and add working dashboard/API URLs.
 - [ ] Run Locust and include real results for different API container counts.
-- [ ] Record and publish the camera-on video, then add the YouTube URL.
+- [x] Record and publish the camera-on video, then add the YouTube URL.
 - [ ] Submit a ZIP of the repository for the first attempt and the GitHub repository URL for the second attempt.
 
 ## Repository structure
