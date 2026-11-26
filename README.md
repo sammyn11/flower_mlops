@@ -201,12 +201,12 @@ I will record a clear demonstration with my camera on and sound working. In the 
 
 ### Notebook evaluation
 
-Paste the actual held-out test metrics from my executed notebook here. Include both baseline and MobileNetV2 values and discuss the most confused classes using the confusion matrix.
+These are the held-out test metrics saved in my executed notebook. The deployed v3 model was subsequently retrained with three uploaded images and a replay sample; its held-out test metrics are accuracy 0.9097, loss 0.3007, macro precision 0.9080, macro recall 0.9109, and macro F1 0.9093. The confusion matrix shows the most frequent confusions were dandelions predicted as daisies and tulips predicted as roses.
 
 | Model | Accuracy | Loss | Macro precision | Macro recall | Macro F1 |
 |---|---:|---:|---:|---:|---:|
-| Baseline CNN | Add measured value | Add measured value | Add measured value | Add measured value | Add measured value |
-| MobileNetV2 | Add measured value | Add measured value | Add measured value | Add measured value | Add measured value |
+| Baseline CNN | 0.6772 | 0.8292 | 0.6909 | 0.6668 | 0.6722 |
+| MobileNetV2 (optimised, notebook evaluation) | 0.9042 | 0.3121 | 0.9032 | 0.9060 | 0.9041 |
 
 ### Locust results
 
@@ -252,4 +252,5 @@ docker-compose.yml             API replicas, Nginx load balancer, and dashboard
 locustfile.py                 Prediction/status load-test workload
 scripts/                      Dataset download and load-test helpers
 ```
+
 
