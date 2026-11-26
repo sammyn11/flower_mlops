@@ -1,4 +1,4 @@
-﻿# Flower Classification MLOps Project
+# Flower Classification MLOps Project
 
 ## About my project
 
@@ -8,10 +8,10 @@ I built an end-to-end image classification pipeline for five flower classes: dai
 
 - GitHub repository: https://github.com/sammyn11/flower_mlops
 - Video demonstration: **I will add my YouTube link after recording the demo.**
-- Deployed dashboard: **I will add my public URL after deployment.**
-- API documentation: **I will add my public `/docs` URL after deployment.**
+- Deployed dashboard: https://flower-mlops-dashboard.onrender.com
+- API documentation: https://flower-mlops-api.onrender.com/docs
 
-I will replace these placeholders with the real links before submitting. I will also add the real model metrics and load-test results after running those steps; I will not report sample or estimated results as measured results.
+I deployed the dashboard and API on Render and verified that prediction and the dashboard pages work. The video demonstration is the remaining project link to add.
 
 ## What the project does
 
@@ -147,27 +147,13 @@ The Compose configuration shares `data/` and `models/` between the API container
 docker compose down
 ```
 
-## Step 6: Deploy to a cloud VM
+## Step 6: Render deployment
 
-This project uses a single Linux VM as a straightforward cloud deployment target. I need an account with a provider such as Google Cloud or AWS; those accounts and resources are not created by this repository.
+I deployed the API and dashboard as two Docker web services in Render's Frankfurt region using the `render.yaml` Blueprint. The deployed dashboard is https://flower-mlops-dashboard.onrender.com, and the API documentation is https://flower-mlops-api.onrender.com/docs. I verified that the hosted dashboard loads and can make predictions.
 
-1. Create a Linux VM with enough memory and disk for TensorFlow, Docker, the dataset, and multiple model-serving containers.
-2. Configure the VM firewall/security group to allow inbound TCP traffic on ports **8501** (dashboard) and **8080** (API/load balancer). Restrict access where practical.
-3. Install Docker Engine and the Docker Compose plugin on the VM.
-4. Clone my GitHub repository onto the VM.
-5. Copy the three trained model artifacts into the VM's `models/` folder. Do not put cloud keys or passwords in the repository.
-6. Download the dataset and start the containers:
+The API image includes my trained model and downloads the TF Flowers dataset during the image build. I use the local Docker Compose setup for the multi-container Locust measurements recorded in this repository; those results are not cloud production measurements.
 
-   ```bash
-   python3 scripts/download_data.py
-   docker compose up -d --build --scale api=2
-   ```
-
-7. Open `http://PUBLIC_VM_IP:8501` for the dashboard and `http://PUBLIC_VM_IP:8080/docs` for the API docs. Replace `PUBLIC_VM_IP` with the VM's actual public IP or DNS name.
-8. Add the working URLs to the Project links section. Keep the VM running while recording the demo and running the cloud load test.
-
-This single-VM setup demonstrates deployment and container scaling for the assignment; it is not a highly available production architecture. Cloud hosting may incur charges, so I will stop or delete the VM when I have finished if I no longer need it.
-
+Render's free services can sleep after 15 minutes without requests and take about a minute to wake. They use ephemeral storage, so uploaded retraining files, the SQLite upload log, and retrained model changes can be lost after a restart, sleep, or redeploy. Free services also cannot scale beyond one instance. I keep these limits in mind when demonstrating the hosted app.
 ## Step 7: Run the Locust flood-request simulation
 
 Run the load test from a machine with Docker Compose and Locust installed, with the Docker deployment running and the test images downloaded. The provided script requires Bash, so on Windows I should use WSL with Docker access.
