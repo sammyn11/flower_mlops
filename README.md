@@ -1,4 +1,4 @@
-# Flower Classification MLOps Project
+﻿# Flower Classification MLOps Project
 
 ## About my project
 
@@ -6,7 +6,7 @@ I built an end-to-end image classification pipeline for five flower classes: dai
 
 ## Project links
 
-- GitHub repository: **I will add my repository URL after publishing it.**
+- GitHub repository: https://github.com/sammyn11/flower_mlops
 - Video demonstration: **I will add my YouTube link after recording the demo.**
 - Deployed dashboard: **I will add my public URL after deployment.**
 - API documentation: **I will add my public `/docs` URL after deployment.**
@@ -46,7 +46,7 @@ I will replace `USERNAME` and `REPOSITORY` with my GitHub details. If Git report
 
 ## Step 2: Train and evaluate the model in Google Colab
 
-1. Open Google Colab and choose **Runtime → Change runtime type → T4 GPU** (or another available GPU).
+1. Open Google Colab and choose **Runtime â†’ Change runtime type â†’ T4 GPU** (or another available GPU).
 2. Download my GitHub repository as a ZIP. In Colab, open the **Files** sidebar, upload the ZIP under `/content`, and extract it there. The extracted project folder must contain `src/`, `notebook/`, and `requirements-colab.txt`.
 3. Open `notebook/flower_mlops.ipynb` in Colab. If Colab opened the notebook separately, keep the extracted project folder under `/content`; the notebook setup cell searches there for `src/config.py`.
 4. If a dependency import fails, run this in a notebook cell from the project root:
@@ -57,7 +57,7 @@ I will replace `USERNAME` and `REPOSITORY` with my GitHub details. If Git report
 
    TensorFlow is normally preinstalled in Colab, so `requirements-colab.txt` intentionally does not reinstall it.
 
-5. Run **Runtime → Run all**. The notebook downloads TF Flowers, makes a stratified train/test split, displays the data visualizations, preprocesses the images, trains a scratch CNN baseline and the MobileNetV2 model, and evaluates both on the held-out test set.
+5. Run **Runtime â†’ Run all**. The notebook downloads TF Flowers, makes a stratified train/test split, displays the data visualizations, preprocesses the images, trains a scratch CNN baseline and the MobileNetV2 model, and evaluates both on the held-out test set.
 6. Save the executed notebook with its outputs. Record the actual accuracy, loss, macro precision, macro recall, macro F1, per-class report, and confusion matrix in the results section below. Use the confusion matrix and feature visualizations to write your own findings.
 7. The notebook saves `flower_model.h5`, `class_names.json`, and `model_meta.json` in `models/`. Download those files from Colab or copy them to Google Drive. Put all three into this project's `models/` folder before starting the API or Docker deployment.
 8. To demonstrate retraining inside the notebook, set `RUN_RETRAIN_DEMO = True` in the last section and run that cell. The actual app retraining demonstration is in Step 4.
@@ -121,7 +121,7 @@ Open the dashboard at `http://localhost:8501` and the interactive API docs at `h
 2. Upload a flower JPG or PNG and click **Predict**. Show the predicted class, confidence, probability chart, model version, latency, and serving container.
 3. Open **Visualizations**. Review the class distribution, brightness, RGB colour profile, and image dimensions. Explain at least three features and what they suggest about the dataset.
 4. Open **Upload & Retrain** and select a flower class for which I have new labeled examples.
-5. Upload several images that genuinely belong to that class and click **Upload**. Confirm the accepted/rejected counts and pending-upload count. The API validates each file, converts it to RGB, resizes it to 224×224, saves it under `data/uploads/<class>/`, and records it in SQLite.
+5. Upload several images that genuinely belong to that class and click **Upload**. Confirm the accepted/rejected counts and pending-upload count. The API validates each file, converts it to RGB, resizes it to 224Ã—224, saves it under `data/uploads/<class>/`, and records it in SQLite.
 6. Click **Retrain on uploaded data**. Show the job logs as the current saved model is loaded, the new data is combined with replay images, training runs, and a new model version is evaluated and saved.
 7. After the job completes, make another prediction and show the new model version on the **Uptime & Model** page.
 
@@ -180,7 +180,7 @@ chmod +x scripts/run_load_tests.sh
 ./scripts/run_load_tests.sh
 ```
 
-The script runs 1, 2, and 3 API containers with 50, 100, and 200 concurrent users. It saves Locust CSV files in `results/` and builds `results/summary.md`. I will include the measured request count, failures, average and median latency, p95 latency, and requests per second in my report. I will explain how latency and throughput change as I add containers and users. The results depend on the VM and network, so I must run the test and report its actual output.
+I ran Locust 2.29.1 for 60 seconds at 50, 100, and 200 concurrent users with one, two, and three warmed API containers. The tests used the Nginx load balancer and a 15-second client timeout. The measured request counts, failures, average and median latency, p95 latency, and throughput are recorded in `results/benchmark_summary.md` and summarized below. These are local Docker measurements, not cloud production measurements.
 
 If the script cannot start Docker or Locust, I will check that Docker is running, the API is reachable at `http://localhost:8080/status`, and the dataset images exist under `data/test/` before retrying.
 
@@ -210,11 +210,19 @@ Paste the actual held-out test metrics from my executed notebook here. Include b
 
 ### Locust results
 
-Paste the measured rows from `results/summary.md` here and describe what changed as container count and user load increased.
+The table shows the measured results for one, two, and three API containers. At 50 users, scaling from one to three containers improved throughput and latency with no failures. At 100 users, two containers had no failures; one container timed out on 41.25% of requests. At 200 users, all configurations reached the 15-second timeout frequently, though three containers had fewer failures than one or two. Full details are in `results/benchmark_summary.md`.
 
 | API containers | Concurrent users | Requests | Failures | Average (ms) | Median (ms) | p95 (ms) | Requests/s |
 |---:|---:|---:|---:|---:|---:|---:|---:|
-| Add measured value | Add measured value | Add measured value | Add measured value | Add measured value | Add measured value | Add measured value | Add measured value |
+| 1 | 50 | 395 | 0 | 5,290 | 6,700 | 7,600 | 6.67 |
+| 1 | 100 | 383 | 158 | 11,278 | 15,000 | 15,000 | 6.45 |
+| 1 | 200 | 652 | 531 | 13,867 | 15,000 | 15,000 | 11.05 |
+| 2 | 50 | 551 | 0 | 3,561 | 4,300 | 5,300 | 9.30 |
+| 2 | 100 | 537 | 0 | 8,096 | 8,900 | 13,000 | 9.04 |
+| 2 | 200 | 664 | 515 | 13,574 | 15,000 | 15,000 | 11.38 |
+| 3 | 50 | 608 | 0 | 3,145 | 3,700 | 5,100 | 10.25 |
+| 3 | 100 | 533 | 1 | 8,272 | 10,000 | 13,000 | 8.98 |
+| 3 | 200 | 704 | 463 | 12,645 | 15,000 | 15,000 | 11.88 |
 
 ## Submission checklist
 
@@ -244,3 +252,4 @@ docker-compose.yml             API replicas, Nginx load balancer, and dashboard
 locustfile.py                 Prediction/status load-test workload
 scripts/                      Dataset download and load-test helpers
 ```
+
