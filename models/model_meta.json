@@ -1,0 +1,123 @@
+{
+  "version": 2,
+  "history": [
+    {
+      "version": 1,
+      "source": "notebook_training",
+      "trained_at": "2026-11-26T09:24:12.766515",
+      "accuracy": 0.9042407660738714,
+      "f1": 0.9041156461950741
+    },
+    {
+      "version": 2,
+      "source": "retraining",
+      "trained_at": "2026-11-26T09:34:27.417828",
+      "accuracy": 0.8891928864569083,
+      "f1": 0.8882432140188236
+    }
+  ],
+  "class_names": [
+    "daisy",
+    "dandelion",
+    "roses",
+    "sunflowers",
+    "tulips"
+  ],
+  "latest": {
+    "version": 2,
+    "source": "retraining",
+    "trained_at": "2026-11-26T09:34:27.417828",
+    "metrics": {
+      "accuracy": 0.8891928864569083,
+      "loss": 0.3341597020626068,
+      "precision": 0.887535073525765,
+      "recall": 0.8923213976666098,
+      "f1": 0.8882432140188236,
+      "n_test": 731,
+      "confusion_matrix": [
+        [
+          113,
+          4,
+          4,
+          3,
+          2
+        ],
+        [
+          11,
+          156,
+          1,
+          10,
+          1
+        ],
+        [
+          1,
+          0,
+          116,
+          3,
+          8
+        ],
+        [
+          1,
+          4,
+          1,
+          133,
+          0
+        ],
+        [
+          2,
+          1,
+          19,
+          5,
+          132
+        ]
+      ],
+      "per_class": {
+        "daisy": {
+          "precision": 0.8828125,
+          "recall": 0.8968253968253969,
+          "f1-score": 0.889763779527559,
+          "support": 126.0
+        },
+        "dandelion": {
+          "precision": 0.9454545454545454,
+          "recall": 0.8715083798882681,
+          "f1-score": 0.9069767441860465,
+          "support": 179.0
+        },
+        "roses": {
+          "precision": 0.8226950354609929,
+          "recall": 0.90625,
+          "f1-score": 0.862453531598513,
+          "support": 128.0
+        },
+        "sunflowers": {
+          "precision": 0.8636363636363636,
+          "recall": 0.9568345323741008,
+          "f1-score": 0.9078498293515358,
+          "support": 139.0
+        },
+        "tulips": {
+          "precision": 0.9230769230769231,
+          "recall": 0.8301886792452831,
+          "f1-score": 0.8741721854304636,
+          "support": 159.0
+        },
+        "accuracy": 0.8891928864569083,
+        "macro avg": {
+          "precision": 0.887535073525765,
+          "recall": 0.8923213976666098,
+          "f1-score": 0.8882432140188236,
+          "support": 731.0
+        },
+        "weighted avg": {
+          "precision": 0.8927365095623202,
+          "recall": 0.8891928864569083,
+          "f1-score": 0.8892443628422595,
+          "support": 731.0
+        }
+      }
+    },
+    "new_images_used": 50,
+    "accuracy_before": 0.9042407660738714
+  }
+}
