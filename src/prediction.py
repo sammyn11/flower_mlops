@@ -15,6 +15,7 @@ class Predictor:
         self._mtime = None
         self.class_names = []
         self._lock = threading.Lock()
+        self._predict_lock = threading.Lock()
 
     def _load_if_needed(self):
         if not C.MODEL_PATH.exists():
@@ -38,7 +39,11 @@ class Predictor:
     def predict(self, image_bytes: bytes):
         self._load_if_needed()
         x = P.preprocess_bytes(image_bytes)
-        probs = self._model.predict(x, verbose=0)[0]
+        # Keras predict() is not safe/effective when many request threads invoke
+        # it on the same model at once. Serialize inference per API replica;
+        # separate replicas still serve predictions in parallel.
+        with self._predict_lock:
+            probs = self._model.predict(x, verbose=0)[0]
         i = int(np.argmax(probs))
         return {"label": self.class_names[i], "confidence": float(probs[i]),
                 "probabilities": {c: float(p) for c, p in zip(self.class_names, probs)}}
