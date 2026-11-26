@@ -4,6 +4,10 @@ COPY requirements-api.txt .
 RUN pip install --no-cache-dir -r requirements-api.txt
 COPY src ./src
 COPY api ./api
+COPY models ./models
 ENV PROJECT_ROOT=/app PYTHONUNBUFFERED=1
-EXPOSE 8000
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Populate the immutable train/test data in the image so cloud insights and
+# retraining have the same source data without committing 220 MB of images.
+RUN python -c "from src.preprocessing import download_and_split; download_and_split()"
+EXPOSE 8000 10000
+CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

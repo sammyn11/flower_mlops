@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: flower-mlops-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile.api
+    dockerContext: .
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: PROJECT_ROOT
+        value: /app
+      - key: AUTO_RETRAIN
+        value: "true"
+      - key: RETRAIN_THRESHOLD
+        value: "50"
+
+  - type: web
+    name: flower-mlops-dashboard
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile.ui
+    dockerContext: .
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: API_URL
+        value: https://flower-mlops-api.onrender.com
