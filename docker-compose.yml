@@ -8,6 +8,9 @@ services:
     environment:
       RETRAIN_THRESHOLD: "50"
       AUTO_RETRAIN: "true"
+      TF_NUM_INTRAOP_THREADS: "2"
+      TF_NUM_INTEROP_THREADS: "1"
+      OMP_NUM_THREADS: "2"
     expose: ["8000"]
     restart: unless-stopped
   nginx:                     # load balancer in front of the API replicas
