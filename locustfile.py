@@ -15,8 +15,8 @@ class FlowerUser(HttpUser):
     @task(9)
     def predict(self):
         self.client.post("/predict", files={"file": ("flower.jpg", random.choice(self.imgs), "image/jpeg")},
-                         name="/predict")
+                         name="/predict", timeout=15)
 
     @task(1)
     def status(self):
-        self.client.get("/status", name="/status")
+        self.client.get("/status", name="/status", timeout=15)
