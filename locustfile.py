@@ -4,13 +4,18 @@ import random
 from locust import HttpUser, between, task
 
 IMAGES = sorted(glob.glob("data/test/**/*.jpg", recursive=True))[:200]
+if not IMAGES:
+    raise RuntimeError("No test images found under data/test/**/*.jpg")
+# Read a small image sample once. Reading files separately in each user's
+# on_start makes Windows bind mounts spend most of a short test spawning users.
+SAMPLE_IMAGES = [open(p, "rb").read() for p in random.sample(IMAGES, min(10, len(IMAGES)))]
 
 
 class FlowerUser(HttpUser):
     wait_time = between(0.5, 2)
 
     def on_start(self):
-        self.imgs = [open(p, "rb").read() for p in random.sample(IMAGES, min(10, len(IMAGES)))]
+        self.imgs = SAMPLE_IMAGES
 
     @task(9)
     def predict(self):
